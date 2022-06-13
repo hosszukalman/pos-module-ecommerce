@@ -1,0 +1,24 @@
+{% comment %}
+  Create a product.
+  Params:
+    - content_id: string
+      the reference for the created content
+    - title: string
+    - description: string (optional)
+    - sku: string (optional)
+    - quantity: integer
+    - price: integer
+      the product price in cents
+{% endcomment %}
+{% liquid
+  graphql product = 'modules/ecommerce/product/create', content_id: content_id, title: title, description: description, sku: sku, quantity: quantity, price: price
+
+  unless product.errors
+    assign params = '{}' | parse_json | hash_merge: created_product: product.product
+    log params, type: 'params'
+    function results = 'modules/core/hook/fire', hook: 'product_create', params: params, merge_to_object: true
+    hash_assign product['hook_results'] = results
+  endunless
+
+  return product
+%}

@@ -1,0 +1,33 @@
+mutation (
+  $content_id: ID!
+  $title: String!
+  $description: String
+  $sku: String
+  $quantity: Int!
+  $price: Int!
+) {
+  product: record_create(
+    record: {
+      table: "modules/ecommerce/product"
+      properties: [
+        { name: "content_id", value: $content_id }
+        { name: "title", value: $title }
+        { name: "description", value: $description }
+        { name: "sku", value: $sku }
+        { name: "quantity", value_int: $quantity }
+        { name: "price", value_int: $price }
+      ]
+    }
+  ) {
+    id
+    created_at
+    type: table
+
+    content_id: property(name: "content_id")
+    title: property(name: "title")
+    description: property(name: "description")
+    sku: property(name: "sku")
+    quantity: property_int(name: "quantity")
+    price: property_int(name: "price")
+  }
+}

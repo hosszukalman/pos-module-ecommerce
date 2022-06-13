@@ -1,0 +1,10 @@
+name: product
+properties:
+  - name: content_id
+  - name: title
+  - name: description
+  - name: sku
+  - name: quantity
+    type: integer
+  - name: price
+    type: integer
