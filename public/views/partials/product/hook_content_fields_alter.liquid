@@ -1,0 +1,56 @@
+{% comment %}
+  Implements hook_content_fields_alter.
+{% endcomment %}
+{% parse_json extra_fields %}
+ [
+    {
+      "name": "Title",
+      "metadata": {
+        "editable": true,
+        "weight": 1,
+        "widget": "textfield"
+      }
+    },
+    {
+      "name": "SKU",
+      "metadata": {
+        "editable": true,
+        "weight": 2,
+        "widget": "textfield"
+      }
+    },
+    {
+      "name": "Description",
+      "metadata": {
+        "editable": true,
+        "weight": 3,
+        "widget": "richtext"
+      }
+    },
+    {
+      "name": "Quantity",
+      "metadata": {
+        "editable": true,
+        "weight": 4,
+        "widget": "textfield"
+      }
+    },
+    {
+      "name": "Price",
+      "metadata": {
+        "editable": true,
+        "weight": 5,
+        "widget": "textfield"
+      }
+    }
+  ]
+{% endparse_json %}
+{% liquid
+  function product_models = 'modules/core/variable/get', name: 'product_models', type: 'array'
+  if product_models contains params.model
+    for field in extra_fields
+      assign params_to_modify = params_to_modify | add_to_array: field
+    endfor
+  endif
+  return nil
+%}
